@@ -10,8 +10,8 @@ app.use(morgan('dev'));//middleware
 app.use(express.json());//used to parse the data
 app.use('/api/v1',router);
 
-mongoose.connect('mongodb+srv://Snehal:Snehal1234@mern-todo.va7rcii.mongodb.net/')
+mongoose.connect('mongodb+srv://Snehal:Snehal1234@mern-todo.va7rcii.mongodb.net/AwdizDB?retryWrites=true&w=majority')
 .then(() => console.log("DB connected successfully"))
 .catch((err)=> console.log("DB error =>",err));
 
-app.listen(8000,()=>console.log("working on port 8000"));//port
+app.listen(8002,()=>console.log("working on port 8000"));//port
