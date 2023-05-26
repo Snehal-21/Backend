@@ -10,7 +10,7 @@ app.use(morgan('dev'));//middleware
 app.use(express.json());//used to parse the data
 app.use('/api/v1',router);
 
-mongoose.connect('mongodb+srv://Snehal:Snehal1234@mern-todo.va7rcii.mongodb.net/AwdizDB?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://Snehal:Snehal1234@mern-todo.va7rcii.mongodb.net/AwdizDb?retryWrites=true&w=majority')
 .then(() => console.log("DB connected successfully"))
 .catch((err)=> console.log("DB error =>",err));
 
