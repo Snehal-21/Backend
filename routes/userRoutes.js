@@ -4,7 +4,7 @@ import express from "express";
 
 const router=express.Router();
 
-router.get('/login',login)
-router .get('/register',register)
+router.post('/login',login)
+router .post('/register',register)
 router.post('/add-Product',addProduct)
 export default router;
