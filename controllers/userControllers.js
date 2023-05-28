@@ -54,8 +54,8 @@ export const login=async(req,res)=>{
         console.log(response[0].email)
         console.log(userEmail)
         if(userEmail === response[0].email){
-            response[0].name=userName
-          await Users.updateOne({userName})
+            response[0].name=userName;
+          await Users.updateOne({name:response[0].name});
           return res.send("updated")
         }
     }
