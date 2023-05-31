@@ -23,20 +23,20 @@ export const login=async(req,res)=>{
  export const register=async(req,res)=>{
 
     try{
-        const {userName,userEmail,UserPassword,userConfirmPassword}=req.body;
-        if (!userName) return res.send("user name is required!")
-        if (!userEmail) return res.send("user email is required!")
-        if (!UserPassword) return res.send("user password is required!")
-        if (!userConfirmPassword) return res.send("user confirm password is required!")
-        if(UserPassword.length <=8 && userConfirmPassword.length <=8) return res.send("Password should be minimum 8 digits!")
-        if(UserPassword!=userConfirmPassword) return res.send("Password and confirmpassword is not matched!")
-        const response=await Users.find({email:userEmail}).exec();
+        const {name,email,password,confirmpassword}=req.body;
+        if (!name) return res.send("user name is required!")
+        if (!email) return res.send("user email is required!")
+        if (!password) return res.send("user password is required!")
+        if (!confirmpassword) return res.send("user confirm password is required!")
+        if(password.length <=8 && confirmpassword.length <=8) return res.send("Password should be minimum 8 digits!")
+        if(password!=confirmpassword) return res.send("Password and confirmpassword is not matched!")
+        const response=await Users.find({email}).exec();
         if(response.length) return res.send("Email is alereadt taken or you are already registered!")
         
         const user= new Users({
-            name:userName,
-            email:userEmail,
-            password:UserPassword
+            name,
+            email,
+            password
         });
         await user.save();
         return res.send("Registration Successfull!")
@@ -48,17 +48,11 @@ export const login=async(req,res)=>{
 
   export const updateuser = async(req,res) => {
     try{
-        const {userName,userEmail}=req.body;
-        const response=await Users.find({email:userEmail}).exec();
-        // if (response.length) return res.send(response)
-        console.log(response[0].email)
-        console.log(userEmail)
-        if(userEmail === response[0].email){
-            // response[0].name=userName;
-          await Users.updateOne({$set:{name:userName}});
-          return res.send("updated")
+        const {name,email}=req.body;
+        const response=await Users.findOneAndUpdate({email},{name}).exec();
+        res.send(response);
         }
-    }
+    
     catch(error){
         return res.send(error,"update arror here...")
     }
