@@ -19,7 +19,8 @@ export const otpRegistration=async(req,res)=>{
         const user=new Users({
             email,
             number,
-            otpverified:false,
+            otpverifiedEmail:false,
+            otpverifiedNumber:false,
             otpforemail:codeemail,
             otpfornumber:codenumber
         })
@@ -32,7 +33,7 @@ export const otpRegistration=async(req,res)=>{
 
 export const otpCheckForEmail=async(req,res)=>{
     try{
-        const {email,otpforemail,otpverified}=req.body;
+        const {email,otpforemail,otpverifiedEmail}=req.body;
         if(!email) return res.send("Email is required!");
         if(!otpforemail) return res.send("OTP is required!")
 
@@ -40,8 +41,8 @@ export const otpCheckForEmail=async(req,res)=>{
         if(!user.length) return res.send("user not found!");
         if(user[0].otpforemail==otpforemail){
              res.send("Email OTP verified!");
-            const response=await Users.findOneAndUpdate({otpverified:true}).exec();
-            res.send(response);
+            const response=await Users.findOneAndUpdate({otpverifiedEmail:true}).exec();
+            // res.send(response);
         }
         return res.send("Wrong OTP");
     }catch(error){
@@ -51,14 +52,16 @@ export const otpCheckForEmail=async(req,res)=>{
 
 export const otpCheckForNumber=async(req,res)=>{
     try{
-        const {number,otpfornumber}=req.body;
+        const {number,otpfornumber,otpverifiedNumber}=req.body;
         if(!number) return res.send("Email is required!");
         if(!otpfornumber) return res.send("OTP is required!")
 
         const user=await Users.find({number}).exec();
         if(!user.length) return res.send("user not found!");
         if(user[0].otpfornumber==otpfornumber){
-            return res.send("Mobile OTP verified!");
+            res.send("Mobile OTP verified!");
+            const response=await Users.findOneAndUpdate({otpverifiedNumber:true}).exec();
+            // res.send(response);
         }
         return res.send("Wrong OTP");
     }catch(error){
