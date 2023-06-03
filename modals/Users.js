@@ -9,6 +9,8 @@ const User=new Schema({
     otpfornumber:String,
     number:Number,
     otpverifiedEmail:String,
-    otpverifiedNumber:String
+    otpverifiedNumber:String,
+    loginOtpEmail:String,
+    loginOtpNumber:String
 });
 export default mongoose.model("Users",User);

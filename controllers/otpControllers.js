@@ -40,9 +40,9 @@ export const otpCheckForEmail=async(req,res)=>{
         const user=await Users.find({email}).exec();
         if(!user.length) return res.send("user not found!");
         if(user[0].otpforemail==otpforemail){
-             res.send("Email OTP verified!");
-            const response=await Users.findOneAndUpdate({otpverifiedEmail:true}).exec();
-            // res.send(response);
+           
+            await Users.findOneAndUpdate({email},{otpverifiedEmail:true}).exec();
+            return   res.send("Email OTP verified!");
         }
         return res.send("Wrong OTP");
     }catch(error){
@@ -59,9 +59,8 @@ export const otpCheckForNumber=async(req,res)=>{
         const user=await Users.find({number}).exec();
         if(!user.length) return res.send("user not found!");
         if(user[0].otpfornumber==otpfornumber){
-            res.send("Mobile OTP verified!");
-            const response=await Users.findOneAndUpdate({otpverifiedNumber:true}).exec();
-            // res.send(response);
+            await Users.findOneAndUpdate({otpverifiedNumber:true}).exec();
+            return res.send("Mobile OTP verified!");
         }
         return res.send("Wrong OTP");
     }catch(error){
@@ -71,22 +70,50 @@ export const otpCheckForNumber=async(req,res)=>{
 
 
 
-// export const otpCheckForRegister=async(req,res)=>{
-//     try{
-//         const {number,email,otp}=req.body;
-//         if (!number) return res.send("Number is required");
-//         if (!email) return res.send("email is required");
-//         if (!otp) return res.send("otp is required");
+export const otpLogin=async(req,res)=>{
+    try{
+        const {email,number}=req.body;
+        if(!email) return res.send("Email is required!");
+        if(!number) return res.send("Number is required!");
 
-//         const user=await Users.find({email}).exec();
-//         if(!user.length) return res.send("user not found");
-//         if(user[0].otp==otp){
-//             return res.send("Registration done");
-//         }
-//        return res.send("wrong otp")
+        const user=await Users.find({email,number}).exec();
+        if(!user) return res.send("User not found!");
+        const codeemail=uuidv4();
+        const codenumber=uuidv4();
+        const updateuser=await Users.findByIdAndUpdate({_id:user[0]._id},{loginOtpEmail:codeemail,loginOtpNumber:codenumber}).exec();
+        res.send("check your Mobile and Email for OTP");
+    }
+    catch(error){
+        return res.send(error);
+    }
+}
 
-//     }catch(error){
-//         return res.send(error)
-//     }
-// }
+export const otpCkeck_LoginEmail =async(req,res)=>{
+    try{
+        const {email,otp}=req.body;
+        if(!email) return res.send("Email is required!");
+        if(!otp) return res.send("Otp is required!");
+        const user=await Users.find({email}).exec();
+        if(user[0].loginOtpEmail == otp){
+            return res.send("Login Successful!")
+        }
+        return res.send("Wrong Otp")
+    }catch(error){
+        return res.send(error);
+    }
+}
 
+export const otpCkeck_LoginNumber =async(req,res)=>{
+    try{
+        const {number,otp}=req.body;
+        if(!number) return res.send("Email is required!");
+        if(!otp) return res.send("Otp is required!");
+        const user=await Users.find({number}).exec();
+        if(user[0].loginOtpNumber == otp){
+            return res.send("Login Successful!")
+        }
+        return res.send("Wrong Otp")
+    }catch(error){
+        return res.send(error);
+    }
+}
