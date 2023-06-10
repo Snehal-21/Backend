@@ -3,6 +3,7 @@ import { login, register, updateuser } from "../controllers/userControllers.js";
 import express from "express";
 import { checkEmail, checkName } from "../middlewares/authMiddleware.js";
 import { otpCheckForEmail, otpCheckForNumber, otpCkeck_LoginEmail, otpCkeck_LoginNumber, otpLogin, otpRegistration } from "../controllers/otpControllers.js";
+import { Encrypt_Register, Encrypt_login } from "../controllers/encrypt_Register.js";
 
 const router=express.Router();
 
@@ -17,4 +18,6 @@ router.post('/otp-check-number',otpCheckForNumber)
 router.post('/otp-login',otpLogin)
 router.post('/otp-login-email',otpCkeck_LoginEmail)
 router.post('/otp-login-number',otpCkeck_LoginNumber)
+router.post('/Encrypt_Register',Encrypt_Register)
+router.post('/Encrypt_login',Encrypt_login);
 export default router;

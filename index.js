@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+// var encrypt=require("encryptjs");
 import{snehal,navale,home, error} from './controllers/All-Controllers.js';
 import router from './routes/userRoutes.js';
 import mongoose from "mongoose";
