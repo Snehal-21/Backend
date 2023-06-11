@@ -27,6 +27,7 @@ export const Encrypt_login=async(req,res)=>{
         const {email ,password} =req.body;
         if(!email) return res.send("Email is required!");
         if(!password) return res.send("Password is required!");
+        
         const response=await Regisetr.find({email}).exec();
         const V_pass=response[0].password;
 
